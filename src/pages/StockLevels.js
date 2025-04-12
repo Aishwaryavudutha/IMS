@@ -10,7 +10,7 @@ const initialStockData = [
 
 const StockLevels = () => {
   const [stockData, setStockData] = useState(initialStockData);
-  const [selectedDepartment, setSelectedDepartment] = useState("All");
+  const [selectedDepartment, setSelectedDepartment] = useState("IT");
 
   const handleThresholdChange = (id, newThreshold) => {
     setStockData(prevData =>
@@ -20,11 +20,8 @@ const StockLevels = () => {
     );
   };
 
-  const filteredStock = stockData.filter(
-    item => selectedDepartment === "All" || item.department === selectedDepartment
-  );
+  const filteredStock = stockData.filter(item => item.department === selectedDepartment);
 
-  // Inline Styles
   const styles = {
     stockContainer: {
       maxWidth: "900px",
@@ -90,9 +87,8 @@ const StockLevels = () => {
 
       {/* Department Filter */}
       <div style={styles.filters}>
-        <label>Filter by Department: </label>
-        <select style={styles.select} onChange={(e) => setSelectedDepartment(e.target.value)}>
-          <option value="All">All Departments</option>
+        <label>Filter by Department:</label>
+        <select style={styles.select} value={selectedDepartment} onChange={(e) => setSelectedDepartment(e.target.value)}>
           <option value="IT">IT</option>
           <option value="Chemistry">Chemistry</option>
           <option value="Biology">Biology</option>
@@ -129,7 +125,9 @@ const StockLevels = () => {
                 />
               </td>
               <td style={styles.td}>
-                {item.stock < item.threshold && <span style={styles.alert}>⚠️ stock levels are below the threshold</span>}
+                {item.stock < item.threshold && (
+                  <span style={styles.alert}>⚠️ stock levels are below the threshold</span>
+                )}
               </td>
             </tr>
           ))}
